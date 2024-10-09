@@ -3,7 +3,13 @@
 <%- include('partials/head.ejs') %>
 <body>
   <%- include('partials/nav.ejs') %>
-  <p>Category page</p>
+  <p>Champion page</p>
+  <h2>Current Champion List</h2>
+  <ul>
+    <% champions.forEach((champion) => { %>
+      <li><%= champion.name %>, <%= champion.cost %> Cost</li>
+    <% }); %>
+  </ul>
   <a href="/">Back to Home Page</a>
   <%- include('partials/footer.ejs') %>
 </body>
