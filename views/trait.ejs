@@ -4,6 +4,12 @@
 <body>
   <%- include('partials/nav.ejs') %>
   <p>Trait page</p>
+  <h2>Current Trait List</h2>
+  <ul>
+    <% traits.forEach((trait) => { %>
+      <li><%= trait.name %></li>
+    <% }); %>
+  </ul>
   <a href="/">Back to Home Page</a>
   <%- include('partials/footer.ejs') %>
 </body>

@@ -7,7 +7,7 @@
   <h2>Current Champion List</h2>
   <ul>
     <% champions.forEach((champion) => { %>
-      <li><%= champion.name %>, <%= champion.cost %> Cost</li>
+      <li><%= champion.champ %>: <%= champion.trait %>, <%= champion.cost %>g</li>
     <% }); %>
   </ul>
   <a href="/">Back to Home Page</a>

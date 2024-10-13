@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const controller = require('../controllers/traitController')
 
-router.get('/', (req, res) => {
-  res.render('trait')
-})
+router.get('/', controller.getTraits)
 
 module.exports = router;
