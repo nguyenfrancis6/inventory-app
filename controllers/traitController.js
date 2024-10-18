@@ -11,6 +11,19 @@ async function getTraits(req, res) {
   }
 }
 
+async function createTrait(req, res) {
+  try {
+    const { name } = req.body;
+    console.log("Received trait name:", name);
+    await db.insertTrait(name);
+    res.redirect("/")
+  } catch (err) {
+    console.error("Error adding trait", err);
+    res.status(500).json({ error: "Server error" }); // Return JSON error response
+  }
+}
+
 module.exports = {
-  getTraits
+  getTraits,
+  createTrait
 };

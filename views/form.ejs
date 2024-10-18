@@ -18,6 +18,8 @@
     <input type="text" id="trait1" name="trait1" required />
     <label for="trait2">Trait 2:</label>
     <input type="text" id="trait2" name="trait2" required />
+    <label for="trait3">Trait 3 (optional):</label>
+    <input type="text" id="trait3" name="trait3" />
   </div>
 
   <button type="submit">Submit</button>
@@ -32,9 +34,15 @@
     if (entityType === "champions") {
       form.action = "/champions"; // POST to this route for champions
       document.getElementById("costField").style.display = "block"; // Show the cost field
+      document.getElementById("trait1").required = true;
+      document.getElementById("trait2").required = true;
+      document.getElementById("cost").required = true;
     } else if (entityType === "traits") {
       form.action = "/traits"; // POST to this route for traits
       document.getElementById("costField").style.display = "none"; // Hide the cost field
+      document.getElementById("trait1").required = false;
+      document.getElementById("trait2").required = false;
+      document.getElementById("cost").required = false;
     }
   }
 
