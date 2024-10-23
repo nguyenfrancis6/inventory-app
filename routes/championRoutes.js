@@ -3,6 +3,6 @@ const router = express.Router();
 const controller = require('../controllers/championController')
 
 router.get('/', controller.getChamps);
-router.post('/', controller.validateUser, controller.createChamp);
+router.post('/', controller.validateChamp, controller.createChamp);
 
 module.exports = router;

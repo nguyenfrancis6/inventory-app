@@ -2,7 +2,7 @@ const db = require("../db/queries");
 
 const { body, validationResult } = require("express-validator");
 // cost, trait1, trait2, trait3
-const validateUser = [
+const validateChamp = [
   body("name")
     .trim()
     .isLength({ max: 100 })
@@ -32,14 +32,18 @@ async function createChamp(req, res) {
     // If validation errors exist, send them as a response or re-render the form with errors
     return res.status(400).render("index", {
       errors: errors.array(),
-      championData: req.body, // Send the submitted form data back to prefill the form
+      traitData: req.body, // Send the submitted form data back to prefill the form
     });
   }
   try {
     const { name, cost, trait1, trait2, trait3 } = req.body;
     console.log("Retrieved properties: ", name, cost, trait1, trait2, trait3);
     await db.insertChamp(name, cost, trait1, trait2, trait3);
-    res.redirect("/");
+    res.render("index", {
+      successMessage: "Champion successfully added!",  // Success message
+      errors: [],                                      // Clear any previous errors
+      championData: {}                                 // Clear form data after success
+    });
   } catch (err) {
     console.error("Error inserting champ", err);
     res.status(500).send("Server error");
@@ -49,5 +53,5 @@ async function createChamp(req, res) {
 module.exports = {
   getChamps,
   createChamp,
-  validateUser
+  validateChamp
 };
