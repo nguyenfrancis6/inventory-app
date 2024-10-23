@@ -6,8 +6,14 @@ async function getAllTraits() {
 }
 
 async function insertTrait(name) {
-  await pool.query("INSERT INTO traits (name) VALUES ($1)", [name]);
-  return { success: true, message: 'Trait added successfully!' };
+  try {
+    await pool.query("INSERT INTO traits (name) VALUES ($1)", [name]);
+    return { success: true, message: 'Trait added successfully!' };
+  }
+  catch (error) {
+    console.error("Error inserting trait:", error)
+    res.status(500).json({ error: "Internal Server Error" })
+  }
 }
 
 async function updateTrait() {
@@ -48,7 +54,7 @@ async function insertChamp(name, cost, trait1, trait2, trait3) {
       if (!traitName) return null; // Skip if trait is null
 
       const traitResult = await pool.query(
-        'SELECT id FROM traits WHERE name = $1',
+        'SELECT id FROM traits WHERE name ILIKE $1',
         [traitName]
       );
 
