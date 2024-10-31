@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
 async function getAllTraits() {
-  const { rows } = await pool.query("SELECT * FROM traits");
+  const { rows } = await pool.query("SELECT * FROM traits ORDER BY name");
   return rows;
 }
 
@@ -20,8 +20,8 @@ async function updateTrait() {
 
 }
 
-async function deleteTrait() {
-  
+async function deleteTrait(name) {
+    
 }
 
 async function getAllChamps() {
