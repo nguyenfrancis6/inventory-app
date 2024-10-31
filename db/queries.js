@@ -20,13 +20,13 @@ async function updateTrait() {
 
 }
 
-async function deleteTrait(name) {
-    
+async function deleteTrait() {
+
 }
 
 async function getAllChamps() {
   const query =
-    "SELECT champions.name AS champ, champions.cost AS cost, ARRAY_AGG(traits.name) AS trait FROM champions INNER JOIN champion_traits ON champions.id = champion_traits.champion_id INNER JOIN traits ON champion_traits.trait_id = traits.id GROUP BY champions.name, champions.cost ORDER BY champions.cost ASC, champions.name ASC";
+    "SELECT champions.id as id, champions.name AS champ, champions.cost AS cost, ARRAY_AGG(traits.name) AS trait FROM champions INNER JOIN champion_traits ON champions.id = champion_traits.champion_id INNER JOIN traits ON champion_traits.trait_id = traits.id GROUP BY champions.id, champions.name, champions.cost ORDER BY champions.cost ASC, champions.name ASC";
   const { rows } = await pool.query(query);
   return rows.map(row => ({
     ...row,
@@ -102,8 +102,14 @@ async function updateChamp() {
 
 }
 
-async function deleteChamp() {
-
+async function deleteChamp(id) {
+  try {
+    await pool.query("DELETE FROM champions WHERE id = $1", [id]);
+    return { success: true, message: "Champion deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting champion:", error);
+    throw error; // Re-throw the error to handle it in the controller
+  }
 }
 
 module.exports = {
@@ -111,4 +117,5 @@ module.exports = {
   getAllChamps,
   insertTrait,
   insertChamp,
+  deleteChamp
 };

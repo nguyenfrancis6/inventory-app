@@ -49,8 +49,20 @@ async function createChamp(req, res) {
   }
 }
 
+async function deleteOneChamp(req, res) {
+  const { id } = req.params;
+  try {
+    await db.deleteChamp(id);
+    res.status(200).json({ success: true, message: "Champion deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting champ", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
 module.exports = {
   getChamps,
   createChamp,
-  validateChamp
+  deleteOneChamp,
+  validateChamp,
 };

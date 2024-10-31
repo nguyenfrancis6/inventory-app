@@ -4,9 +4,8 @@ const { body, validationResult } = require("express-validator");
 const validateTrait = [
   body("name")
   .trim()
-  .isLength({ max: 100 })
-  .isAlpha().withMessage("Name should only contain letters")
-  .withMessage("Name must be alphabetic and less than 100 characters")
+  .isLength({ max: 100 }).withMessage("Name must be alphabetic and less than 100 characters")
+  .matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/).withMessage("Name should only contain letters with a single space between words"),
 ]
 
 async function getTraits(req, res) {

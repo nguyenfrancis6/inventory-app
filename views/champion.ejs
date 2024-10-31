@@ -7,10 +7,33 @@
   <h2>Current Champion List</h2>
   <ul>
     <% champions.forEach((champion) => { %>
-      <li><%= champion.champ %>: <%= champion.trait %>, <%= champion.cost %>g</li>
+      <li>
+        <%= champion.champ %>: <%= champion.trait %>, <%= champion.cost %>g
+        <button onclick="deleteChampion('<%= champion.id %>')">X</button>
+      </li>
     <% }); %>
   </ul>
   <a href="/">Back to Home Page</a>
   <%- include('partials/footer.ejs') %>
+  <script>
+    // JavaScript to handle delete action
+    async function deleteChampion(championId) {
+      const confirmation = confirm("Are you sure you want to delete this champion?");
+      if (!confirmation) return;
+  
+      try {
+        const response = await fetch(`/champions/${championId}`, { method: 'DELETE' });
+        if (response.ok) {
+          alert("Champion deleted successfully!");
+          window.location.reload(); // Reload the page to show the updated list
+        } else {
+          alert("Failed to delete champion.");
+        }
+      } catch (error) {
+        console.error("Error deleting champion:", error);
+        alert("An error occurred while deleting the champion.");
+      }
+    }
+  </script>
 </body>
 </html>
