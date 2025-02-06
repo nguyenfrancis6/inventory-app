@@ -20,8 +20,23 @@ async function updateTrait() {
 
 }
 
-async function deleteTrait() {
+async function deleteTrait(id) {
+  try {
+    // Begin a transaction
+    await pool.query("BEGIN");
 
+    // Delete the trait (this will trigger cascading deletions)
+    await pool.query("DELETE FROM traits WHERE id = $1", [id]);
+
+    // Commit the transaction
+    await pool.query("COMMIT");
+
+    return { success: true, message: "Trait and associated champions deleted successfully." };
+  } catch (error) {
+    await pool.query("ROLLBACK");
+    console.error("Error deleting trait:", error);
+    return { success: false, message: "Error deleting trait." };
+  }
 }
 
 async function getAllChamps() {
@@ -117,5 +132,6 @@ module.exports = {
   getAllChamps,
   insertTrait,
   insertChamp,
-  deleteChamp
+  deleteChamp, 
+  deleteTrait 
 };

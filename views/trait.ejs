@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs') %>
-<body>
-  <%- include('partials/nav.ejs') %>
-  <p>Trait page</p>
-  <h2>Current Trait List</h2>
-  <ul>
-    <% traits.forEach((trait) => { %>
-      <li><%= trait.name %></li>
-    <% }); %>
-  </ul>
-  <a href="/">Back to Home Page</a>
-  <%- include('partials/footer.ejs') %>
-</body>
+  <%- include('partials/head.ejs') %>
+  <body>
+    <%- include('partials/nav.ejs') %>
+    <p>Trait page</p>
+    <h2>Current Trait List</h2>
+    <ul>
+      <% traits.forEach((trait) => { %>
+      <li>
+        <%= trait.name %>
+        <button onclick="deleteTrait('<%= trait.id %>')">X</button>
+      </li>
+      <% }); %>
+    </ul>
+    <a href="/">Back to Home Page</a>
+    <%- include('partials/footer.ejs') %>
+    <script>
+      function deleteTrait(traitId) {
+        if (
+          confirm(
+            "Are you sure you want to delete this trait? This will remove all associated champions!"
+          )
+        ) {
+          fetch(`/traits/${traitId}`, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(data.message);
+                location.reload();
+              } else {
+                alert("Error: " + data.message);
+              }
+            })
+            .catch((error) => console.error("Error deleting trait:", error));
+        }
+      }
+    </script>
+  </body>
 </html>

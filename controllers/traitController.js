@@ -43,8 +43,20 @@ async function createTrait(req, res) {
   }
 }
 
+async function deleteOneTrait(req, res) {
+  const { id } = req.params;
+  try {
+    await db.deleteTrait(id)
+    res.status(200).json({ success: true, message: "Trait deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting trait", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
 module.exports = {
   getTraits,
   createTrait,
-  validateTrait
+  validateTrait, 
+  deleteOneTrait
 };
